@@ -1,0 +1,23 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from './pages/Home';
+import About from './pages/About';
+import TempShow from "./pages/TempShow"
+
+function App() {
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home></Home>}></Route>
+        <Route path="/about" element={<About></About>}></Route>
+        <Route path="/filters" element={<TempShow></TempShow>}></Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
