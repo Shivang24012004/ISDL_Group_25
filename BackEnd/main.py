@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes.grayscale import router as grayscale
+from routes.pencilsketch import router as pencilsketch
 
 app=FastAPI()
 
@@ -20,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(grayscale)
+app.include_router(pencilsketch)
 
 @app.get("/")
 async def read_root():

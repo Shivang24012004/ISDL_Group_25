@@ -7,18 +7,18 @@ from pydantic import BaseModel
 from uuid import uuid4
 from scipy.interpolate import UnivariateSpline
 from io import BytesIO
-from utils.filters import Grayscale
+from utils.filters import Pencilsketch
 
 router=APIRouter()
 
-@router.post("/grayscale")
+@router.post("/pencilsketch")
 async def upload_image(file: UploadFile = File(...)):
     try:
         
-        processor=Grayscale(file)
+        processor=Pencilsketch(file)
         await processor.read_image()
-        gray_image=processor.convert_to_grayscale()
-        img_bytes=processor.get_image_bytes(gray_image)
+        pencil_image=processor.convert_to_pencilsketch()
+        img_bytes=processor.get_image_bytes(pencil_image)
         
         return StreamingResponse(img_bytes, media_type="image/jpeg")
     except Exception as e:
