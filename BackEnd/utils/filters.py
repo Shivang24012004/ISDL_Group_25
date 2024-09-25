@@ -31,8 +31,6 @@ class Pencilsketch(Filter):
             raise ValueError("Image not loaded")
         
         gray_scale=cv2.cvtColor(self.image,cv2.COLOR_BGR2GRAY)
-        # inverted_gray=255-gray_scale
         blur=cv2.GaussianBlur(gray_scale,(101,101),0)
-        # blur=255-blur
-        sketch_img=cv2.divide(gray_scale,blur,scale=255)
+        sketch_img=cv2.divide(gray_scale,blur,scale=255)        
         return sketch_img
