@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function TempShow2() {
   const [file, setFile] = useState(null);
@@ -9,30 +9,41 @@ function TempShow2() {
     setFile(URL.createObjectURL(selectedFile));
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append("file", selectedFile);
     // console.log(selectedFile)
     try {
       // console.log(formData)
-      const response = await fetch('http://localhost:8000/pencilsketch', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/pencilsketch", {
+        method: "POST",
         body: formData,
       });
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         const blob = await response.blob();
         setProcessedFile(URL.createObjectURL(blob));
       } else {
-        console.error('Failed to upload and process the image');
+        console.error("Failed to upload and process the image");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div className="bg-slate-400 h-screen">
+    <div className="bg-slate-400 w-full min-h-screen">
       <input type="file" onChange={handleFileChange} />
-      {processedFile && <img src={processedFile} alt="Processed" />}
+      <div className="flex flex-col justify-between">
+        {file && (
+          <img className="m-2 p-2" src={file} alt="OriginalImage" />
+        )}
+        {processedFile && (
+          <img
+            className="m-2 p-2"
+            src={processedFile}
+            alt="ProcessedImage"
+          />
+        )}
+      </div>
     </div>
   );
 }
