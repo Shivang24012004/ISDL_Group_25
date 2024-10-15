@@ -11,6 +11,9 @@ numpy = "*"
 scipy = "*"
 uuid = "*"
 python-multipart = "*"
+pymongo = "*"
+python-dotenv = "*"
+appwrite = "*"
 
 [dev-packages]
 

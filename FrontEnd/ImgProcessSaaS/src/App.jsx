@@ -8,6 +8,7 @@ import About from './pages/About';
 import TempShow from "./pages/TempShow"
 import TempShow2 from './pages/TempShow2';
 import Login from './pages/Login.jsx';
+import TempShow3 from './pages/TempShow3';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/about" element={<About></About>}></Route>
         <Route path="/filters" element={<TempShow></TempShow>}></Route>
         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
+        <Route path="/filters3" element={<TempShow3></TempShow3>}></Route>
       </Routes>
     </BrowserRouter>
   )

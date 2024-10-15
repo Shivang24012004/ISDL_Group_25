@@ -1,10 +1,18 @@
-from fastapi import FastAPI, File, UploadFile
+import os
+from fastapi import FastAPI, File, UploadFile,HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes.grayscale import router as grayscale
 from routes.pencilsketch import router as pencilsketch
+from routes.cartoonify import router as cartoonify
+from routes.canvaseffect import router as canvaseffect
+from routes.signup import router as sign_up
+from pymongo import MongoClient
+from db import db
 
 app=FastAPI()
+
+
 
 origins = [
     "http://localhost",
@@ -22,7 +30,14 @@ app.add_middleware(
 
 app.include_router(grayscale)
 app.include_router(pencilsketch)
+app.include_router(cartoonify)
+app.include_router(canvaseffect)
+app.include_router(sign_up)
 
 @app.get("/")
 async def read_root():
-    return {"BackEnd":"is Working"}
+    try:
+        db.command("ping")
+        return {"BackEnd":"is Working","MongoDB":"Connected"}
+    except Exception as e:
+        return JSONResponse(content={"error":str(e)},status_code=500)
