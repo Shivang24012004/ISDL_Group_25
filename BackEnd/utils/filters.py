@@ -78,10 +78,28 @@ class CanvasStyle(Filter):
         if self.image is None:
             return ValueError("Image not loaded")
         
-        # texture=self.generate_texture(self.image.shape[:2])
-        print("hi")
         texture=texture/255.0
         canvas_texture=texture*0.5
         canvas_effect=cv2.addWeighted(self.image,1.0-canvas_texture,texture,canvas_texture,0)
         return canvas_effect
+    
+class ContrastEnhancement(Filter):
+    def histogram_equalization(self):
+        hsi_image=cv2.cvtColor(self.image,cv2.COLOR_BGR2HSV)
+        h,s,i=hsi_image[:,:,0],hsi_image[:,:,1],hsi_image[:,:,2]
+        clahe=cv2.createCLAHE(clipLimit=0.5,tileGridSize=(8,8))
+        i=clahe.apply(i)
+        hsi_image=np.dstack((h,s,i))
+        rgb_image=cv2.cvtColor(hsi_image,cv2.COLOR_HSV2BGR)
+        return rgb_image
+    
+    def convert_to_contrastenhance(self):
+        if self.image is None:
+            return ValueError("Image not loaded")
         
+        enhanced_image=self.histogram_equalization()
+        return enhanced_image
+        
+        
+
+    

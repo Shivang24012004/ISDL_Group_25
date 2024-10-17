@@ -13,7 +13,7 @@ function TempShow3() {
     // console.log(selectedFile)
     try {
       // console.log(formData)
-      const response = await fetch("http://localhost:8000/canvaseffect", {
+      const response = await fetch("http://localhost:8000/contrastenhancement", {
         method: "POST",
         body: formData,
       });
