@@ -14,6 +14,10 @@ python-multipart = "*"
 pymongo = "*"
 python-dotenv = "*"
 appwrite = "*"
+passlib = "*"
+python-jose = "*"
+bcrypt = "*"
+jose = "*"
 
 [dev-packages]
 
