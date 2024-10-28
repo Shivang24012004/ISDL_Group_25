@@ -31,7 +31,7 @@ class Pencilsketch(Filter):
             raise ValueError("Image not loaded")
         
         gray_scale=cv2.cvtColor(self.image,cv2.COLOR_BGR2GRAY)
-        blur=cv2.GaussianBlur(gray_scale,(101,101),0)
+        blur=cv2.GaussianBlur(gray_scale,(77,77),0)
         sketch_img=cv2.divide(gray_scale,blur,scale=255)        
         return sketch_img
     
@@ -39,9 +39,8 @@ class Cartoonify(Filter):
     def to_edge(self):
         
         gray_scale=cv2.cvtColor(self.image,cv2.COLOR_BGR2GRAY)
-        # gray_blurred_img=cv2.GaussianBlur(gray_scale,(101,101),0)
         gray_blurred_img=cv2.medianBlur(gray_scale,3)
-        edged_img=cv2.adaptiveThreshold(gray_blurred_img,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,17,17)
+        edged_img=cv2.adaptiveThreshold(gray_blurred_img,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,13,13)
         
         return edged_img
 
@@ -55,7 +54,7 @@ class Cartoonify(Filter):
             raise ValueError("Image not loaded")
         
         edge_img=self.to_edge()
-        quantized_img=self.fast_uniform_color_quantization(6)
+        quantized_img=self.fast_uniform_color_quantization(8)
         color_img=cv2.bilateralFilter(quantized_img, 13, 270, 270)
         cartoon=cv2.bitwise_and(color_img, color_img, mask=edge_img)
         return cartoon
