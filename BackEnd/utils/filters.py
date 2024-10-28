@@ -59,29 +59,21 @@ class Cartoonify(Filter):
         cartoon=cv2.bitwise_and(color_img, color_img, mask=edge_img)
         return cartoon
     
-class CanvasStyle(Filter):
-    def generate_texture(self,shape,scale=0.1):
-        rows,cols=shape[:2]
-        
-        noise=np.zeros((rows,cols),dtype=np.float32)
-        
-        for i in range(rows):
-            for j in range(cols):
-                noise[i,j]=np.random.uniform(0,255)
-        
-        noise = cv2.resize(noise, (cols, rows), interpolation=cv2.INTER_LINEAR)
-        noise=noise*scale
-        return noise
+class GrainyEffect(Filter):
+    def add_grainy_effect(self,mean=0,var=10):
+        sigma=var**0.5
+        gauss = np.random.normal(mean, sigma, self.image.shape).astype('float32')
+        grainy_image = cv2.add(self.image.astype('float32'), gauss)
+        grainy_image = np.clip(grainy_image, 0, 255).astype('uint8')
+        return grainy_image
     
-    def convert_to_canvas(self):
+    def convert_to_grainyeffect(self):
         if self.image is None:
             return ValueError("Image not loaded")
         
-        texture=texture/255.0
-        canvas_texture=texture*0.5
-        canvas_effect=cv2.addWeighted(self.image,1.0-canvas_texture,texture,canvas_texture,0)
-        return canvas_effect
-    
+        grainy_image=self.add_grainy_effect(0,2000)
+        return grainy_image
+          
 class ContrastEnhancement(Filter):
     def histogram_equalization(self):
         hsi_image=cv2.cvtColor(self.image,cv2.COLOR_BGR2HSV)
