@@ -5,9 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.grayscale import router as grayscale
 from routes.pencilsketch import router as pencilsketch
 from routes.cartoonify import router as cartoonify
-from routes.canvaseffect import router as canvaseffect
+from routes.grainyeffect import router as grainyeffect
 from routes.contrastehancement import router as contrastenhancement
 from routes.signup import router as sign_up
+from routes.login import router as sign_in
 from pymongo import MongoClient
 from db import db
 
@@ -32,9 +33,10 @@ app.add_middleware(
 app.include_router(grayscale)
 app.include_router(pencilsketch)
 app.include_router(cartoonify)
-app.include_router(canvaseffect)
+app.include_router(grainyeffect)
 app.include_router(sign_up)
 app.include_router(contrastenhancement)
+app.include_router(sign_in)
 
 @app.get("/")
 async def read_root():

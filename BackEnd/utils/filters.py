@@ -31,7 +31,7 @@ class Pencilsketch(Filter):
             raise ValueError("Image not loaded")
         
         gray_scale=cv2.cvtColor(self.image,cv2.COLOR_BGR2GRAY)
-        blur=cv2.GaussianBlur(gray_scale,(101,101),0)
+        blur=cv2.GaussianBlur(gray_scale,(77,77),0)
         sketch_img=cv2.divide(gray_scale,blur,scale=255)        
         return sketch_img
     
@@ -39,9 +39,8 @@ class Cartoonify(Filter):
     def to_edge(self):
         
         gray_scale=cv2.cvtColor(self.image,cv2.COLOR_BGR2GRAY)
-        # gray_blurred_img=cv2.GaussianBlur(gray_scale,(101,101),0)
         gray_blurred_img=cv2.medianBlur(gray_scale,3)
-        edged_img=cv2.adaptiveThreshold(gray_blurred_img,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,17,17)
+        edged_img=cv2.adaptiveThreshold(gray_blurred_img,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,13,13)
         
         return edged_img
 
@@ -55,34 +54,26 @@ class Cartoonify(Filter):
             raise ValueError("Image not loaded")
         
         edge_img=self.to_edge()
-        quantized_img=self.fast_uniform_color_quantization(6)
+        quantized_img=self.fast_uniform_color_quantization(8)
         color_img=cv2.bilateralFilter(quantized_img, 13, 270, 270)
         cartoon=cv2.bitwise_and(color_img, color_img, mask=edge_img)
         return cartoon
     
-class CanvasStyle(Filter):
-    def generate_texture(self,shape,scale=0.1):
-        rows,cols=shape[:2]
-        
-        noise=np.zeros((rows,cols),dtype=np.float32)
-        
-        for i in range(rows):
-            for j in range(cols):
-                noise[i,j]=np.random.uniform(0,255)
-        
-        noise = cv2.resize(noise, (cols, rows), interpolation=cv2.INTER_LINEAR)
-        noise=noise*scale
-        return noise
+class GrainyEffect(Filter):
+    def add_grainy_effect(self,mean=0,var=10):
+        sigma=var**0.5
+        gauss = np.random.normal(mean, sigma, self.image.shape).astype('float32')
+        grainy_image = cv2.add(self.image.astype('float32'), gauss)
+        grainy_image = np.clip(grainy_image, 0, 255).astype('uint8')
+        return grainy_image
     
-    def convert_to_canvas(self):
+    def convert_to_grainyeffect(self):
         if self.image is None:
             return ValueError("Image not loaded")
         
-        texture=texture/255.0
-        canvas_texture=texture*0.5
-        canvas_effect=cv2.addWeighted(self.image,1.0-canvas_texture,texture,canvas_texture,0)
-        return canvas_effect
-    
+        grainy_image=self.add_grainy_effect(0,2000)
+        return grainy_image
+          
 class ContrastEnhancement(Filter):
     def histogram_equalization(self):
         hsi_image=cv2.cvtColor(self.image,cv2.COLOR_BGR2HSV)

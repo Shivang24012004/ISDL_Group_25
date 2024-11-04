@@ -11,6 +11,10 @@ if not mongo_url:
 client = MongoClient(mongo_url)
 db = client["ImageApp"]
 
+user_collection=db.users
+
+image_link_collection=db.user_image_link
+
 try:
     client.admin.command('ping')
     print("MongoDB connection established")

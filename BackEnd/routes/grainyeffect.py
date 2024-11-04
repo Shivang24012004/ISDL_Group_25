@@ -7,17 +7,20 @@ from pydantic import BaseModel
 from uuid import uuid4
 from scipy.interpolate import UnivariateSpline
 from io import BytesIO
-from utils.filters import CanvasStyle
+from utils.filters import GrainyEffect
 
 router=APIRouter()
 
-@router.post("/canvaseffect")
+@router.post("/grainyeffect")
 async def upload_image(file: UploadFile = File(...)):
     try:
-        processor=CanvasStyle(file)
+        processor=GrainyEffect(file)
         await processor.read_image()
-        canvas_effect=processor.convert_to_canvas()
-        return StreamingResponse(canvas_effect,media_type="image/jpeg")
+        grainy_effect=processor.convert_to_grainyeffect()
+        img_bytes=processor.get_image_bytes(grainy_effect)
+        return StreamingResponse(img_bytes,media_type="image/jpeg")
+    
     except Exception as e:
+        print(str(e))
         return JSONResponse(content={"error":str(e)},status_code=500)
 
