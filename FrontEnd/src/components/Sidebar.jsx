@@ -1,25 +1,80 @@
-import React from 'react';
-import { LayoutGrid, Star } from 'lucide-react';
+import { Image, LayoutDashboard, Menu } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
-  return (
-    <div className="w-fit  sm:w-64 bg-white shadow-md p-4 h-screen  flex flex-col space-y-4">
-      {/* Logo */}
-     
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-     
-    <h1 className=' text-2xl'>Image SAAS</h1>
-      {/* Menu Items */}
-      <div className="flex flex-col space-y-2 self">
-        <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded-lg">
-          <LayoutGrid className="text-gray-700" />
-          <span className="text-gray-700 font-medium">Team Board</span>
-        </div>
-        <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded-lg">
-          <Star className="text-gray-700" />
-          <span className="text-gray-700 font-medium">Favourite Boards</span>
-        </div>
-      </div>
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  return (
+    <div className="flex relative w-fit">
+      {/* Hamburger Icon (only visible on mobile) */}
+      <button
+        className="text-2xl p-4 align-bottom  self-start md:hidden"
+        onClick={toggleSidebar}
+      >
+        <Menu />
+      </button>
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full border-r-2  bg-white  p-4 transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:min-w-full md:h-screen  z-20`}
+      >
+        <h1 className="text-2xl font-serif font-bold mb-4">Image SAAS</h1>
+        <nav className="space-y-2">
+          <Link
+            to="/"
+            className=" text-left w-full flex gap-2  px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)} // Close sidebar on click
+          >
+            <LayoutDashboard width={20} />
+            Dashboard
+          </Link>
+          <Link
+            to="/filter"
+            className=" text flex gap-2 w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <Image width={20} />
+            Filter Page
+          </Link>
+          <Link
+            to="/filters"
+            className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            TempShow
+          </Link>
+          <Link
+            to="/filters2"
+            className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            TempShow2
+          </Link>
+          <Link
+            to="/filters3"
+            className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            TempShow3
+          </Link>
+        </nav>
+      </aside>
+
+      {/* Overlay (only visible on mobile when sidebar is open) */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-10 md:hidden"
+          // style={{ left: '50%' }}
+          onClick={toggleSidebar}
+        ></div>
+      )}
     </div>
   );
 };
