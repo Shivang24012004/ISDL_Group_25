@@ -2,6 +2,7 @@ from fastapi import UploadFile
 from io import BytesIO
 import cv2
 import numpy as np
+from scipy.interpolate import UnivariateSpline
 
 class Filter:
     def __init__(self,file:UploadFile):
@@ -91,6 +92,40 @@ class ContrastEnhancement(Filter):
         enhanced_image=self.histogram_equalization()
         return enhanced_image
         
-        
+class CoolFilter(Filter):
+    def create_lookup_table(self,x,y):
+        return UnivariateSpline(x, y)(range(256)).astype(np.uint8)
 
-    
+    def convert_to_cool(self):
+        if self.image is None:
+            return ValueError("Image not loaded")
+        
+        increase_table = self.create_lookup_table([0, 64, 128, 255], [0, 75, 155, 255])
+        decrease_table = self.create_lookup_table([0, 64, 128, 255], [0, 45, 95, 255])
+        
+        blue_channel, green_channel, red_channel = cv2.split(self.image)
+        
+        blue_channel = cv2.LUT(blue_channel, increase_table)
+        red_channel = cv2.LUT(red_channel, decrease_table)
+        
+        cool_image = cv2.merge((blue_channel, green_channel, red_channel))
+        return cool_image
+        
+class WarmFilter(Filter):
+    def create_lookup_table(self,x,y):
+        return UnivariateSpline(x, y)(range(256)).astype(np.uint8)
+
+    def convert_to_warm(self):
+        if self.image is None:
+            return ValueError("Image not loaded")
+        
+        increase_table = self.create_lookup_table([0, 64, 128, 255], [0, 75, 155, 255])
+        decrease_table = self.create_lookup_table([0, 64, 128, 255], [0, 45, 95, 255])
+        
+        blue_channel, green_channel, red_channel = cv2.split(self.image)
+        
+        red_channel = cv2.LUT(red_channel, increase_table)
+        blue_channel = cv2.LUT(blue_channel, decrease_table)
+        
+        warm_image = cv2.merge((blue_channel, green_channel, red_channel))
+        return warm_image
