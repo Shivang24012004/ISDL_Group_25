@@ -18,6 +18,8 @@ passlib = "*"
 python-jose = "*"
 bcrypt = "*"
 jose = "*"
+supabase = "*"
+storage3 = "*"
 
 [dev-packages]
 
