@@ -1,4 +1,4 @@
-import { Image, LayoutDashboard, Menu } from 'lucide-react';
+import { Image, LayoutDashboard, Menu, UserRound } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -45,10 +45,11 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/filters"
-            className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            className="text flex gap-2 w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
             onClick={() => setIsSidebarOpen(false)}
           >
-            TempShow
+            <UserRound width={20} />
+            Profile
           </Link>
           <Link
             to="/filters2"
