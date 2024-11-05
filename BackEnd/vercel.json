@@ -3,7 +3,7 @@
     "builds": [
       {
         "src": "main.py",
-        "use": "@vercel/python-edge",
+        "use": "@vercel/python",
         "config": { "runtime": "python3.9" }
       }
     ],
