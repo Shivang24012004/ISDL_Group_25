@@ -1,0 +1,18 @@
+# Exclude environment files
+.env
+
+# Exclude version control directories
+.git
+.github
+
+# Exclude local development files
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Exclude documentation
+docs/
+
+# Exclude test files
+tests/
