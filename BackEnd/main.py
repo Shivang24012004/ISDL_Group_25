@@ -55,3 +55,7 @@ async def read_root():
         return {"BackEnd":"is Working","MongoDB":"Connected"}
     except Exception as e:
         return JSONResponse(content={"error":str(e)},status_code=500)
+    
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
