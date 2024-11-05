@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+opencv-python
+numpy
+scipy
+python-multipart
+pymongo
+python-dotenv
+appwrite
+passlib
+bcrypt
+jose
+supabase
