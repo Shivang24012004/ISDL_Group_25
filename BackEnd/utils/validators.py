@@ -1,4 +1,6 @@
 import bcrypt
+from fastapi import HTTPException, Request
+from db import db
 
 def validate_user_data(user_data):
     required_fields=["email","password","api_key"]
@@ -21,3 +23,16 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     # Verify the password
     return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+
+async def verify_apikey(request:Request):
+    form=await request.form()
+    apikey=form.get("apikey")
+    
+    if not apikey:
+        raise HTTPException(status_code=401,detail={"success":"false","message":"API key missing"})
+    
+    user=db['users'].find_one({"api_key":apikey})
+    if not user:
+        raise HTTPException(status_code=403, detail={"success":"false","message":"Invalid API Key"})
+    
+    return user
