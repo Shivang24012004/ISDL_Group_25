@@ -15,10 +15,11 @@ from routes.getAllimages import router as getallimages
 from routes.deleteimage import router as deleteimage
 from pymongo import MongoClient
 from db import db
+from dotenv import load_dotenv
 
 app=FastAPI()
 
-
+load_dotenv()
 
 origins = [
     "http://localhost",
