@@ -12,6 +12,7 @@ from routes.savefile import router as save_file
 from routes.coolfilter import router as coolfilter
 from routes.warmfilter import router as warmfilter
 from routes.getAllimages import router as getallimages
+from routes.deleteimage import router as deleteimage
 from pymongo import MongoClient
 from db import db
 
@@ -44,6 +45,7 @@ app.include_router(save_file)
 app.include_router(warmfilter)
 app.include_router(coolfilter)
 app.include_router(getallimages)
+app.include_router(deleteimage)
 
 @app.get("/")
 async def read_root():

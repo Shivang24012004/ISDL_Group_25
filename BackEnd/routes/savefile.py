@@ -19,7 +19,14 @@ async def upload_image(user_id:str,file: UploadFile = File(...),user:dict=Depend
     try:
         file_id=str(uuid4())
         contents = await file.read()
-        unique_filename = f"{file_id}_{file.filename}"
+        
+        # unique_filename = f"{file_id}_{file.filename}"
+        
+        if '.' in file.filename:
+            ext = file.filename.rsplit('.', 1)[-1]
+            unique_filename = f"{file_id}.{ext}"
+        else:
+            unique_filename = file_id
         
         supabase.storage.from_("SaaS_Images").upload(
             unique_filename,
@@ -35,6 +42,7 @@ async def upload_image(user_id:str,file: UploadFile = File(...),user:dict=Depend
         link_data={
             "owner_id":user_id,
             "file_id":file_id,
+            "file_name":unique_filename,
             "link":access_url
         }
         

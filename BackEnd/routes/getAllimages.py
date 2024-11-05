@@ -3,7 +3,6 @@ from fastapi.responses import JSONResponse
 from uuid import uuid4
 from models.user import User,UserCredentials
 from db import db
-from utils.validators import verify_password
 
 router=APIRouter()
 
@@ -18,8 +17,9 @@ async def fetchImages(user_id:str):
             image_dict = {
                 "_id": str(image.get("_id")),
                 "link": image.get("link"),
-                "owner_id": str(image.get("owner_id")),  # Convert ObjectId to string if necessary
-                "file_id": image.get("file_id")
+                "owner_id": str(image.get("owner_id")), 
+                "file_id": image.get("file_id"),
+                "file_name":image.get("file_name")
             }
             response_data.append(image_dict)
             
