@@ -12,6 +12,8 @@ import DashBoard from './pages/DashBoard';
 import Layout from './pages/layout';
 import  Sidebar  from '@/components/Sidebar';
 import Profile from './pages/Profile';
+import DocumentationPage from './pages/Documentation';
+import AboutUsPage from './pages/AboutPage';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
         <Route path='/' element={<DashBoard />}></Route>
         <Route path="/filter" element={<Filter />}></Route>
         <Route path="/filters" element={<Profile />}></Route>
+        <Route path="/documentation" element={<DocumentationPage />}></Route>
+        <Route path="/about" element={<AboutUsPage />}></Route>
         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
         <Route path="/filters3" element={<TempShow3></TempShow3>}></Route>
       </Routes>

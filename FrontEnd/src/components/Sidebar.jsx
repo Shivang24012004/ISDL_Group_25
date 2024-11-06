@@ -27,6 +27,8 @@ const Sidebar = () => {
       >
         <h1 className="text-2xl font-serif font-bold mb-4">Image SAAS</h1>
         <nav className="space-y-2">
+        
+        {/* Dashboard Button */}
           <Link
             to="/"
             className=" text-left w-full flex gap-2  px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
@@ -35,6 +37,8 @@ const Sidebar = () => {
             <LayoutDashboard width={20} />
             Dashboard
           </Link>
+        
+        {/* Filter Page Button */}
           <Link
             to="/filter"
             className=" text flex gap-2 w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
@@ -43,6 +47,25 @@ const Sidebar = () => {
             <Image width={20} />
             Filter Page
           </Link>
+
+          <Link
+            to="/documentation"
+            className="text flex gap-2 items-center w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <img src="https://cdn4.iconfinder.com/data/icons/big-data-133/100/document_office_file_information_computer_documentation-512.png" width={20} height={20} />
+            Documentation
+          </Link>
+
+          <Link
+            to="/about"
+            className="text flex gap-2 items-center w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <img src="https://icon-library.com/images/about-us-icon/about-us-icon-3.jpg" width={20} height={20} />
+            About Us
+          </Link>
+
           <Link
             to="/filters"
             className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
