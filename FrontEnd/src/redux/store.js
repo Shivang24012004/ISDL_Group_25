@@ -1,0 +1,29 @@
+import { configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // uses localStorage by default
+import { combineReducers } from 'redux';
+import userSlice from "./userSlice.js";
+import imageSlice from "./imageSlice.js";
+
+const rootReducer=combineReducers({
+    user:userSlice,
+    image:imageSlice
+});
+
+const persistConfig={
+    key:'root',
+    storage
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+});
+
+export const persistor = persistStore(store);
+export default store;
