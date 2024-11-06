@@ -1,7 +1,5 @@
-from fastapi import APIRouter,File, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
-from typing import Optional
-from pydantic import BaseModel
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from uuid import uuid4
 from models.user import User,UserCredentials
 from db import db
@@ -26,12 +24,9 @@ async def sign_in(user:UserCredentials):
         user_data = existing_user.copy()
         user_data["_id"] = str(user_data["_id"])
         del user_data["password"]
-        
-        print(user_data)
     
         return JSONResponse(content={"success": "true", "message": "Login Successful", "user": user_data}, status_code=200)
     except Exception as e:
-        print(e)
         return JSONResponse(content={"error": "User could't be loggedin! {}".format(str(e))}, status_code=500)
     
     

@@ -11,12 +11,15 @@ from routes.login import router as sign_in
 from routes.savefile import router as save_file
 from routes.coolfilter import router as coolfilter
 from routes.warmfilter import router as warmfilter
+from routes.getAllimages import router as getallimages
+from routes.deleteimage import router as deleteimage
 from pymongo import MongoClient
 from db import db
+from dotenv import load_dotenv
 
 app=FastAPI()
 
-
+load_dotenv()
 
 origins = [
     "http://localhost",
@@ -42,7 +45,8 @@ app.include_router(sign_in)
 app.include_router(save_file)
 app.include_router(warmfilter)
 app.include_router(coolfilter)
-
+app.include_router(getallimages)
+app.include_router(deleteimage)
 
 @app.get("/")
 async def read_root():
@@ -51,3 +55,7 @@ async def read_root():
         return {"BackEnd":"is Working","MongoDB":"Connected"}
     except Exception as e:
         return JSONResponse(content={"error":str(e)},status_code=500)
+    
+# if __name__ == '__main__':
+#     import uvicorn
+#     uvicorn.run(app)

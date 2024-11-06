@@ -1,24 +1,32 @@
-from fastapi import APIRouter,File, UploadFile, Form
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi import APIRouter,File, UploadFile, Depends
+from fastapi.responses import JSONResponse
 from uuid import uuid4
 from io import BytesIO
-# from AppwriteStore import get_appwrite_client,get_storage_service,get_file_url
 from db import db
 from supabase import create_client, Client
+from utils.validators import verify_apikey
+import os
 
 router=APIRouter()
         
-SUPABASE_URL = 'https://ghxifysweoqvrqntieib.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoeGlmeXN3ZW9xdnJxbnRpZWliIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMDY1NjU2NSwiZXhwIjoyMDQ2MjMyNTY1fQ.zx0YFjBZTYKZvfqTrSDjTmf8tCkJI-uALIicJGadG10'
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @router.post("/savefile")
-async def upload_image(user_id:str,file: UploadFile = File(...)):
+async def upload_image(user_id:str,file: UploadFile = File(...),user:dict=Depends(verify_apikey)):
     try:
         file_id=str(uuid4())
         contents = await file.read()
-        unique_filename = f"{file_id}_{file.filename}"
+        
+        # unique_filename = f"{file_id}_{file.filename}"
+        
+        if '.' in file.filename:
+            ext = file.filename.rsplit('.', 1)[-1]
+            unique_filename = f"{file_id}.{ext}"
+        else:
+            unique_filename = file_id
         
         supabase.storage.from_("SaaS_Images").upload(
             unique_filename,
@@ -34,6 +42,7 @@ async def upload_image(user_id:str,file: UploadFile = File(...)):
         link_data={
             "owner_id":user_id,
             "file_id":file_id,
+            "file_name":unique_filename,
             "link":access_url
         }
         

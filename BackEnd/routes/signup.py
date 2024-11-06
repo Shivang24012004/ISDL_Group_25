@@ -1,7 +1,5 @@
-from fastapi import APIRouter,File, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
-from typing import Optional
-from pydantic import BaseModel
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from uuid import uuid4
 from models.user import User,UserCredentials
 from db import db

@@ -33,5 +33,13 @@
   .file-upload_label {
     @apply flex flex-col justify-center gap-2 text-center text-black;
   }
+
+
 }
- 
+
+.jakarta {
+  font-family: "Plus Jakarta Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: bold;
+}

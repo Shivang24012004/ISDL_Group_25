@@ -4,8 +4,8 @@ import APIKey from "./ApiKey";
 
 const Profile = () => {
   return (
-    <div className="text-black mx-4 w-full">
-      <h1 className="text-3xl font-serif font-semibold mt-4 "> Profile</h1>
+    <div className="text-black w-3/4 px-4">
+      <h1 className="text-3xl font-semibold   mt-4 "> Profile</h1>
       <form className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col md:flex gap-2 items-center">
           <div className=" w-full">
