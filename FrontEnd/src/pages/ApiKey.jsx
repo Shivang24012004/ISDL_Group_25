@@ -1,19 +1,17 @@
+import { getapiKey } from '@/redux/userSlice';
 import { Check, Clipboard } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const APIKey = () => {
   const [apiKey, setApiKey] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Function to generate a random API key
-  const generateApiKey = () => {
-    const key = Array(32)
-      .fill(null)
-      .map(() => Math.random().toString(36).charAt(2)) // Generates random characters
-      .join('');
-    setApiKey(key);
-    setCopied(false); // Reset the copied state
-  };
+    const saved = useSelector(getapiKey);
+    useEffect(() => {
+        setApiKey(saved);
+    }, [saved]);
+    // setApiKey(saved);
 
   // Function to copy API key to clipboard
   const copyToClipboard = () => {
@@ -31,7 +29,7 @@ const APIKey = () => {
       <div className="flex items-center border border-gray-300 rounded-md p-2 w-fit mb-4">
         <input
           type="text"
-          value={apiKey || 'Your API Key will appear here'}
+          value={apiKey }
           readOnly
           className=" w-full md:w-fit px-2 py-1 text-gray-700 bg-white border-none focus:outline-none"
         />

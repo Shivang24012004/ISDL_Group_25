@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from './pages/Home';
 import Filter from './pages/Filter';
 import TempShow from "./pages/TempShow"
@@ -14,17 +14,65 @@ import  Sidebar  from '@/components/Sidebar';
 import Profile from './pages/Profile';
 import DocumentationPage from './pages/Documentation';
 import AboutUsPage from './pages/AboutPage';
+import LoginPage from './pages/Login';
+import { Toaster } from './components/ui/toaster';
+import SignupPage from './pages/Signup';
 
 
-function App() {
+// function App() {
+//   const location = useLocation();
+//   const isLoginPage = location.pathname === '/login';
+//   return (
+//     <BrowserRouter>
+//     {/* <Layout> */}
+//     <div className='flex mt-2'>
+
+//     {!isLoginPage && <Sidebar />}
+//     <Routes>
+//         <Route path="/login" element={<LoginPage />} />
+//         <Route path='/' element={<DashBoard />}></Route>
+//         <Route path="/filter" element={<Filter />}></Route>
+//         <Route path="/filters" element={<Profile />}></Route>
+//         <Route path="/documentation" element={<DocumentationPage />}></Route>
+//         <Route path="/about" element={<AboutUsPage />}></Route>
+//         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
+//         <Route path="/filters3" element={<TempShow3></TempShow3>}></Route>
+//       </Routes>
+//     </div>
+//     {/* </Layout> */}
+//     </BrowserRouter>
+//   )
+// }
+
+function LayoutWithSidebar({ children }) {
+  return (
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="flex-1 p-10">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function MainContent() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
-    <BrowserRouter>
-    {/* <Layout> */}
-    <div className='flex mt-2'>
-
-    <Sidebar />
-      <Routes>
+    <Routes>
+      {isLoginPage ? (
+        <>
+        <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </>
+      ) : (
+        <Route
+          path="*"
+          element={
+            <LayoutWithSidebar>
+              <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route path='/' element={<DashBoard />}></Route>
         <Route path="/filter" element={<Filter />}></Route>
         <Route path="/filters" element={<Profile />}></Route>
@@ -33,10 +81,21 @@ function App() {
         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
         <Route path="/filters3" element={<TempShow3></TempShow3>}></Route>
       </Routes>
-    </div>
-    {/* </Layout> */}
-    </BrowserRouter>
-  )
+            </LayoutWithSidebar>
+          }
+        />
+      )}
+    </Routes>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <MainContent />
+      <Toaster />
+
+    </BrowserRouter>
+  );
+}
+

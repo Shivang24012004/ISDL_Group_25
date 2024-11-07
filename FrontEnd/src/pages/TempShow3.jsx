@@ -10,10 +10,11 @@ function TempShow3() {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("apikey","ddcba84f-f969-41ad-9022-5963e9fecd55")
     // console.log(selectedFile)
     try {
       // console.log(formData)
-      const response = await fetch("http://localhost:8000/grainyeffect", {
+      const response = await fetch("https://isdl-group-25.onrender.com/grainyeffect", {
         method: "POST",
         body: formData,
       });

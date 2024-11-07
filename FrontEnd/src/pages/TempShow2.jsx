@@ -13,7 +13,7 @@ function TempShow2() {
     // console.log(selectedFile)
     try {
       // console.log(formData)
-      const response = await fetch("http://localhost:8000/pencilsketch", {
+      const response = await fetch("https://isdl-group-25.onrender.com/pencilsketch", {
         method: "POST",
         body: formData,
       });
