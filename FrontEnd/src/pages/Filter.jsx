@@ -5,7 +5,7 @@ import { onUpload } from './fileUploader';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFilterDispatch } from '@/lib/filterUtils';
-import { cartoonify, contrastEnhancement, coolFilter, grainyEffect, grayScale, pencilSketch, saveImage, warmFilter } from '@/redux/AsyncThunk';
+import { cartoonify, contrastEnhancement, coolFilter, gothamEffect, grainyEffect, grayScale, hdrEffect, pencilSketch, saveImage, sepiaEffect, warmFilter } from '@/redux/AsyncThunk';
 import { getapiKey, getId } from '@/redux/userSlice';
 import { Loader } from 'lucide-react';
 import { getImageBlob, setImageBlob } from '@/redux/imageSlice';
@@ -59,6 +59,15 @@ const About = () => {
           break;
         case 'grey':
           result = await handleFilterDispatch(dispatch, toast, grayScale, sentFile, apiKey);
+          break;
+        case 'sepia':
+          result = await handleFilterDispatch(dispatch, toast, sepiaEffect, sentFile, apiKey);
+          break;
+        case 'gotham':
+          result = await handleFilterDispatch(dispatch, toast, gothamEffect, sentFile, apiKey);
+          break;
+        case 'hdreffect':
+          result = await handleFilterDispatch(dispatch, toast, hdrEffect, sentFile, apiKey);
           break;
         default:
           toast({ title: 'Error', description: 'Invalid filter selected', type: 'error' });
@@ -167,6 +176,9 @@ const About = () => {
     <option value="cartoon">Cartoon Effect</option>
     <option value="grey">Greyscale</option>
     <option value="contrast">Contrast Enhancement</option>
+    <option value="sepia">Sepia</option>
+    <option value="gotham">Gotham</option>
+    <option value="hdreffect">HDR Effect</option>
 
 
 

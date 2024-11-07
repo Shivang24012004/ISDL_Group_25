@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -216,6 +215,113 @@ export const grayScale = createAsyncThunk(
     }
   );
 
+export const hdrEffect = createAsyncThunk(
+    'file/uploadAndProcessHDREffect',
+    async ({file,apiKey}, thunkAPI) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('apikey', apiKey);
+  
+      try {
+        const response = await fetch(`${BACKEND_URL}hdreffect`, {
+          method: "POST",
+          body: formData,
+        });
+        console.log(response);
+        if (response.ok) {
+          const blob = await response.blob();
+          return blob;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to upload and process the image');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );
+
+  export const gothamEffect = createAsyncThunk(
+    'file/uploadAndProcessGothamEffect',
+    async ({file,apiKey}, thunkAPI) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('apikey', apiKey);
+  
+      try {
+        const response = await fetch(`${BACKEND_URL}gotham`, {
+          method: "POST",
+          body: formData,
+        });
+        console.log(response);
+        if (response.ok) {
+          const blob = await response.blob();
+          return blob;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to upload and process the image');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );
+  
+  
+  // export const gothamEffect = createAsyncThunk(
+  //   'file/uploadAndProcessGothamEffect',
+  //   async ({ file, apiKey }, thunkAPI) => {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
+  //     formData.append('apikey', apiKey);
+  
+  //     try {
+  //       const response = await axios.post(`${BACKEND_URL}gotham`, formData, {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data',
+  //         }
+  //         // If your backend requires credentials like cookies or HTTP auth
+  //         //withCredentials: true,
+  //       });
+  
+  //       // return response.data; // Adjust according to your backend response
+  //       if(response.ok) {
+  //         const blob=await response.blob()
+  //         return blob;
+  //       } else {
+  //         return thunkAPI.rejectWithValue(error.message)
+  //       }
+  //     } catch (error) {
+  //       console.error('Gotham effect error:', error);
+  //       return thunkAPI.rejectWithValue(error.response?.data || error.message);
+  //     }
+  //   }
+  // );
+
+  export const sepiaEffect = createAsyncThunk(
+    'file/uploadAndProcessSepiaEffect',
+    async ({file,apiKey}, thunkAPI) => {
+      console.log(file , apiKey )
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('apikey', apiKey);
+  
+      try {
+        const response = await fetch(`${BACKEND_URL}sepia`, {
+          method: "POST",
+          body: formData,
+        });
+        console.log(response);
+        if (response.ok) {
+          const blob = await response.blob();
+          return blob;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to upload and process the image');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );
+
   export const saveImage = createAsyncThunk(
     'file/saveImage',
     async ({ userId, file, apiKey }, thunkAPI) => {
@@ -266,7 +372,7 @@ export const grayScale = createAsyncThunk(
     'file/deleteImage',
     async ({ userId, file_id }, thunkAPI) => {
       try {
-        const response = await axios.get(`${BACKEND_URL}deleteimage?user_id=${userId}&file_id=${file_id}`);
+        const response = await axios.delete(`${BACKEND_URL}deleteimage?user_id=${userId}&file_id=${file_id}`);
         console.log(response);
   
         if (response.status === 200) {
