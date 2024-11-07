@@ -2,9 +2,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
+const BACKEND_URL = import.meta.env.VITE_APP_FOO;
+
+
+
 export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
   try {
-    const response = await axios.post('https://isdl-group-25.onrender.com/auth/signin', credentials);
+    const response = await axios.post(`${BACKEND_URL}auth/signin`, credentials);
     console.log(response.data);
     if(response.data.success === 'false') {
       return thunkAPI.rejectWithValue (response.data.message);
@@ -21,7 +26,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI
 
 export const signup = createAsyncThunk('auth/signup', async (credentials, thunkAPI) => {
   try {
-    const response = await axios.post('https://isdl-group-25.onrender.com/auth/signup', credentials);
+    const response = await axios.post(`${BACKEND_URL}auth/signup`, credentials);
     console.log(response.data);
     if (response.data.success === false) {
       return thunkAPI.rejectWithValue(response.data.message);
@@ -42,7 +47,7 @@ export const grainyEffect = createAsyncThunk(
       
   
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/grainyeffect", {
+        const response = await fetch(`${BACKEND_URL}grainyeffect`, {
           method: "POST",
           body: formData,
         });
@@ -67,7 +72,7 @@ export const grainyEffect = createAsyncThunk(
       formData.append('file', file);
       formData.append('apikey', apiKey);
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/warmfilter", {
+        const response = await fetch(`${BACKEND_URL}warmfilter`, {
           method: "POST",
           body: formData,
         });
@@ -93,7 +98,7 @@ export const grainyEffect = createAsyncThunk(
       console.log(formData)
       try {
         
-        const response = await fetch("https://isdl-group-25.onrender.com/coolfilter", {
+        const response = await fetch(`${BACKEND_URL}coolfilter`, {
           method: "POST",
           body: formData,
         });
@@ -118,7 +123,7 @@ export const grainyEffect = createAsyncThunk(
       formData.append('apikey', apiKey);
   
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/pencilsketch", {
+        const response = await fetch(`${BACKEND_URL}pencilsketch`, {
           method: "POST",
           body: formData,
         });
@@ -144,7 +149,7 @@ export const grainyEffect = createAsyncThunk(
       formData.append('apikey', apiKey);
   
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/cartoonify", {
+        const response = await fetch(`${BACKEND_URL}cartoonify`, {
           method: "POST",
           body: formData,
         });
@@ -169,7 +174,7 @@ export const grainyEffect = createAsyncThunk(
       formData.append('apikey', apiKey);
   
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/contrastenhancement", {
+        const response = await fetch(`${BACKEND_URL}contrastenhancement`, {
           method: "POST",
           body: formData,
         });
@@ -194,7 +199,7 @@ export const grayScale = createAsyncThunk(
       formData.append('apikey', apiKey);
   
       try {
-        const response = await fetch("https://isdl-group-25.onrender.com/grayscale", {
+        const response = await fetch(`${BACKEND_URL}grayscale`, {
           method: "POST",
           body: formData,
         });
@@ -221,7 +226,7 @@ export const grayScale = createAsyncThunk(
       formData.append('user_id', userId);
   
       try {
-        const response = await axios.post(`https://isdl-group-25.onrender.com/savefile?user_id=${userId}`, formData, {
+        const response = await axios.post(`${BACKEND_URL}savefile?user_id=${userId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -243,7 +248,7 @@ export const grayScale = createAsyncThunk(
     'file/getImages',
     async ({userId,apiKey}, thunkAPI) => {
       try {
-        const response = await axios.get(`https://isdl-group-25.onrender.com/getallimages?user_id=${userId}`);
+        const response = await axios.get(`${BACKEND_URL}getallimages?user_id=${userId}`);
         console.log(response);
   
         if (response.data.message.length !== 0) {
@@ -261,7 +266,7 @@ export const grayScale = createAsyncThunk(
     'file/deleteImage',
     async ({ userId, file_id }, thunkAPI) => {
       try {
-        const response = await axios.get(`https://isdl-group-25.onrender.com/deleteimage?user_id=${userId}&file_id=${file_id}`);
+        const response = await axios.get(`${BACKEND_URL}deleteimage?user_id=${userId}&file_id=${file_id}`);
         console.log(response);
   
         if (response.status === 200) {

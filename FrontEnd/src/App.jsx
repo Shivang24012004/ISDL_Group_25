@@ -21,7 +21,6 @@ import ProtectedRoute from './components/Auth';
 import Navbar from './components/Navbar';
 
 
-// function App() {
 //   const location = useLocation();
 //   const isLoginPage = location.pathname === '/login';
 //   return (
