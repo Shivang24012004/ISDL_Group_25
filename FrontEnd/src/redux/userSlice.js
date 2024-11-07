@@ -16,10 +16,10 @@ const userSlice=createSlice({
             state.email=email;
             state._id=_id;
         },
-        clearUserInfo:(state,action)=>{
-            state.api_key='';
-            state.email='';
-            state._id='';
+        clearUserInfo:(state)=>{
+            state.api_key=null;
+            state.email=null;
+            state._id=null;
         }
     }
 })
@@ -27,5 +27,5 @@ const userSlice=createSlice({
 export const {setUserInfo,clearUserInfo}=userSlice.actions;
 export const getapiKey = (state) => state.user.api_key;
 export const email = (state) => state.user.email;
-export const id = (state) => state.user._id;
+export const getId = (state) => state.user._id;
 export default userSlice.reducer;

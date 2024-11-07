@@ -17,6 +17,8 @@ import AboutUsPage from './pages/AboutPage';
 import LoginPage from './pages/Login';
 import { Toaster } from './components/ui/toaster';
 import SignupPage from './pages/Signup';
+import ProtectedRoute from './components/Auth';
+import Navbar from './components/Navbar';
 
 
 // function App() {
@@ -57,14 +59,19 @@ function LayoutWithSidebar({ children }) {
 
 function MainContent() {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup';
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/docs';
 
   return (
     <Routes>
       {isLoginPage ? (
         <>
         <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/docs" element={
+          <>
+          <Navbar />
+          <DocumentationPage />
+          </>} />
         </>
       ) : (
         <Route
@@ -73,9 +80,11 @@ function MainContent() {
             <LayoutWithSidebar>
               <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route element={<ProtectedRoute />}>
         <Route path='/' element={<DashBoard />}></Route>
         <Route path="/filter" element={<Filter />}></Route>
-        <Route path="/filters" element={<Profile />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
+        </Route>
         <Route path="/documentation" element={<DocumentationPage />}></Route>
         <Route path="/about" element={<AboutUsPage />}></Route>
         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
@@ -94,6 +103,7 @@ export default function App() {
     <BrowserRouter>
       <MainContent />
       <Toaster />
+      
 
     </BrowserRouter>
   );

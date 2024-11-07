@@ -49,7 +49,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+          return blob;
        
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
@@ -74,7 +74,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+        return blob;
         }
       } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -100,7 +100,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+        return blob;
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
@@ -125,7 +125,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+          return blob;
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
@@ -151,7 +151,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+        return blob;
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
@@ -176,7 +176,7 @@ export const grainyEffect = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+          return blob;
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
@@ -201,7 +201,7 @@ export const grayScale = createAsyncThunk(
         console.log(response);
         if (response.ok) {
           const blob = await response.blob();
-         return (URL.createObjectURL(blob));
+          return blob;
         } else {
           return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
@@ -211,9 +211,10 @@ export const grayScale = createAsyncThunk(
     }
   );
 
-  export const saveFile = createAsyncThunk(
-    'file/saveFile',
+  export const saveImage = createAsyncThunk(
+    'file/saveImage',
     async ({ userId, file, apiKey }, thunkAPI) => {
+      console.log(userId, file, apiKey);
       const formData = new FormData();
       formData.append('file', file);
       formData.append('apikey', apiKey);
@@ -225,11 +226,48 @@ export const grayScale = createAsyncThunk(
             'Content-Type': 'multipart/form-data',
           },
         });
+        console.log(response);
   
         if (response.status === 200) {
           return response.data.access_url;
         } else {
           return thunkAPI.rejectWithValue('Failed to save the file');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );
+
+  export const getImages = createAsyncThunk(
+    'file/getImages',
+    async ({userId,apiKey}, thunkAPI) => {
+      try {
+        const response = await axios.get(`https://isdl-group-25.onrender.com/getallimages?user_id=${userId}`);
+        console.log(response);
+  
+        if (response.data.message.length !== 0) {
+          return response.data.message;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to get images');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );
+
+  export const deleteImage = createAsyncThunk(
+    'file/deleteImage',
+    async ({ userId, file_id }, thunkAPI) => {
+      try {
+        const response = await axios.get(`https://isdl-group-25.onrender.com/deleteimage?user_id=${userId}&file_id=${file_id}`);
+        console.log(response);
+  
+        if (response.status === 200) {
+          return file_id;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to delete the file');
         }
       } catch (error) {
         return thunkAPI.rejectWithValue(error.message);

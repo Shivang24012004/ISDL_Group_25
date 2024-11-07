@@ -1,13 +1,27 @@
-import { Image, LayoutDashboard, Menu, UserRound } from 'lucide-react';
+import { clearImageBlob, clearImages } from '@/redux/imageSlice';
+import { clearUserInfo } from '@/redux/userSlice';
+import { Image, LayoutDashboard, LogOut, Menu, UserRound } from 'lucide-react';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const logOut = async () => {
+    console.log('logging out');
+    dispatch(clearUserInfo());
+ dispatch(clearImages());
+  dispatch(clearImageBlob())
+
+    window.location.href = '/login';
+  }
+
 
   return (
     <div className="flex relative w-fit">
@@ -67,14 +81,22 @@ const Sidebar = () => {
           </Link>
 
           <Link
-            to="/filters"
+            to="/profile"
             className="text flex gap-2 w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
             onClick={() => setIsSidebarOpen(false)}
           >
             <UserRound width={20} />
             Profile
           </Link>
-          <Link
+          <button
+            className="text flex gap-2 w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
+            onClick={logOut}
+            
+          >
+            <LogOut width={20} />
+            Logout
+          </button>
+          {/* <Link
             to="/filters2"
             className="block text-left w-full px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-200"
             onClick={() => setIsSidebarOpen(false)}
@@ -87,7 +109,7 @@ const Sidebar = () => {
             onClick={() => setIsSidebarOpen(false)}
           >
             TempShow3
-          </Link>
+          </Link> */}
         </nav>
       </aside>
 

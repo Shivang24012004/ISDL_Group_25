@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { DownloadCloud, Eye, Trash2 } from "lucide-react";
+import { DownloadCloud, Eye, Loader, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,39 +10,82 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteImage, getImages } from "@/redux/AsyncThunk";
+import { getId } from "@/redux/userSlice";
+import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { getImage, setImage } from "@/redux/imageSlice";
 
-const defaultImages = [
-  {
-    id: "1",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "image-01.jpg",
-    size: "2.4 MB",
-    uploadedAt: "2 hours ago",
-  },
-  {
-    id: "2",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "screenshot-2023.png",
-    size: "1.8 MB",
-    uploadedAt: "5 hours ago",
-  },
-  {
-    id: "3",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "profile-picture.jpg",
-    size: "3.2 MB",
-    uploadedAt: "1 day ago",
-  },
-  {
-    id: "4",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "background.png",
-    size: "4.7 MB",
-    uploadedAt: "3 days ago",
-  },
-];
+
 
 export default function Dashboard() {
+  const{ toast} = useToast();
+  const download = (link) => {
+    console.log(link);
+    fetch(link, {
+      method: "GET",
+      headers: {}
+    })
+      .then(response => {
+        response.arrayBuffer().then(function(buffer) {
+          const url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "image.png"); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const image2 = useSelector(getImage)
+
+const [images, setImages] = useState(image2);
+const [loading, setLoading] = useState(false);
+const dispatch = useDispatch();
+const userId = useSelector(getId);
+    useEffect(() => {
+      setLoading(true);
+    const fetchImages = async () => {
+      try {
+        const response = await dispatch(getImages({ userId })).unwrap();
+        setImages(response);
+        dispatch(setImage(response))
+      } catch (error) {
+        console.error('Failed to fetch images:', error);
+      }
+    };
+
+    fetchImages();
+
+  setLoading(false)
+  }, [userId]);
+
+
+  const onDelete = async (file_id) => {
+    console.log(file_id);
+    dispatch(deleteImage({ file_id , userId })).unwrap().then((data) => {
+      console.log(data);
+      toast({ title: 'Image Deleted successfully' });
+      setImages((prevImages) => prevImages.filter((image) => image.file_id !== file_id));
+    }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+   
+  }
+
+
+
+
+console.log(images)
+
+
   return (
     <div className="h-full w-3/4 p-4 ">
       <TooltipProvider>
@@ -56,12 +99,13 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
-          {defaultImages.map((image) => (
-            <Card key={image.id} className="overflow-hidden group">
+         {loading && <Loader className="m-auto animate-spin" />}
+          {images?.map((image) => (
+            <Card key={image.file_id} className="overflow-hidden group">
               <CardContent className="p-0">
                 <div className="relative aspect-square">
                   <img
-                    src={image.url}
+                    src={image.link}
                     alt={image.name}
                     className="object-cover transition-transform group-hover:scale-105"
                   />
@@ -69,13 +113,15 @@ export default function Dashboard() {
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <Tooltip>
                       <TooltipTrigger>
+                        <Link to={image.link}>
                         <Button
                           size="icon"
                           variant="ghost"
                           className="h-9 w-9 text-white"
-                        >
+                          >
                           <Eye className="h-5 w-5" />
                         </Button>
+                          </Link>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className=" jakarta font-bold ">View</p>
@@ -87,6 +133,7 @@ export default function Dashboard() {
                           size="icon"
                           variant="ghost"
                           className="h-9 w-9 text-white"
+                          onClick={() => download(image.link)}
                         >
                           <DownloadCloud className="h-5 w-5" />
                         </Button>
@@ -101,6 +148,7 @@ export default function Dashboard() {
                           size="icon"
                           variant="ghost"
                           className="h-9 w-9 text-white"
+                          onClick={() => onDelete(image.file_id)}
                         >
                           <Trash2 className="h-5 w-5" />
                         </Button>
@@ -111,17 +159,7 @@ export default function Dashboard() {
                     </Tooltip>
                   </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-medium truncate">{image.name}</h3>
-                  <div className="flex items-center justify-between mt-1">
-                    <p className="text-sm text-muted-foreground">
-                      {image.size}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {image.uploadedAt}
-                    </p>
-                  </div>
-                </div>
+               
               </CardContent>
             </Card>
           ))}

@@ -23,7 +23,7 @@ const APIKey = () => {
 
   return (
     <div className="flex items-center gap-2  rounded-lg w-full md:w-full mt-5">
-      <h2 className="text-md md:text-xl font-semibold mb-4">API Key : </h2>
+      <h2 className="text-md md:text-xl font-semibold mb-4">Api Key : </h2>
       
       {/* Display API Key or Placeholder */}
       <div className="flex items-center border border-gray-300 rounded-md p-2 w-fit mb-4">

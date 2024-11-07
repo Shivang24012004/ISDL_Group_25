@@ -1,29 +1,46 @@
-import React, { useState } from 'react';
-import { ImageIcon } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { ImageIcon, Loader } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/redux/AsyncThunk';
 import { useToast } from '@/hooks/use-toast';
-import { setUserInfo } from '@/redux/userSlice';
+import { getId, setUserInfo } from '@/redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
 
     const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const {toast} = useToast();
+  const navigate = useNavigate();
+
+  const userId = useSelector(getId);
+
+  useEffect(() => {
+    if (userId) {
+      navigate("/");
+    }
+  }, [userId]);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(email , password)
     dispatch(login({ email, password }))
       .unwrap().then((data) => {
         console.log(data);
         dispatch(setUserInfo(data.user));
         toast({ title : 'Login successful' , type : 'success'})
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
         toast({ title : err , type : 'error'})
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
@@ -74,32 +91,13 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a href="#" className="font-medium text-gray-600 hover:text-gray-500">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
 
           <div>
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
-              Sign in
+            {loading ? <Loader className='animate-spin' h="" /> : 'Sign in'}
             </button>
           </div>
         </form>
@@ -107,10 +105,18 @@ export default function LoginPage() {
           <p className="mt-2 text-sm text-gray-600">
             Don't have an account?{' '}
             <a href="/signup" className="font-medium text-gray-600 hover:text-gray-500">
+            
               Sign up
             </a>
           </p>
+          <div className="text-sm text-right flex justify-center">
+             <a href="#" className="font-medium text-gray-600 hover:text-gray-500">
+               Forgot your password?
+             </a>
+           </div>
         </div>
+        
+        
       </div>
     </div>
   );

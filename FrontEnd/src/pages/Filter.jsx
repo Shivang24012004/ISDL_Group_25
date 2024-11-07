@@ -5,16 +5,20 @@ import { onUpload } from './fileUploader';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFilterDispatch } from '@/lib/filterUtils';
-import { cartoonify, contrastEnhancement, coolFilter, grainyEffect, grayScale, pencilSketch, warmFilter } from '@/redux/AsyncThunk';
-import { getapiKey } from '@/redux/userSlice';
+import { cartoonify, contrastEnhancement, coolFilter, grainyEffect, grayScale, pencilSketch, saveImage, warmFilter } from '@/redux/AsyncThunk';
+import { getapiKey, getId } from '@/redux/userSlice';
 import { Loader } from 'lucide-react';
+import { getImageBlob, setImageBlob } from '@/redux/imageSlice';
 
 const About = () => {
+  const imageblob = useSelector(getImageBlob);
   const [file, setFile] = React.useState("");
   const [sentFile, setSentFile] = React.useState("");
   const [filteredImage, setFilteredImage] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);  const {toast} = useToast();
+  const [newfile, setNewFile] = React.useState(""); 
+  const [isLoading, setIsLoading] = React.useState(false);
+    const {toast} = useToast();
   const dispatch = useDispatch();
   const apiKey = useSelector(getapiKey)
 
@@ -22,12 +26,12 @@ const About = () => {
 
   const applyFilter = async () => {
     if (!selectedFilter) {
-      toast("Please select a filter to apply", "error");
+      toast({title : "Please select filter" , type : "error"});
       return;
     }
   
     if (!file) {
-      toast("Please upload an image to apply the filter", "error");
+      toast({title : "Please upload an image to apply filter" , type : "error"});
       return;
     }
     setIsLoading(true);
@@ -61,7 +65,9 @@ const About = () => {
           return;
       }
       console.log(result);
-      setFilteredImage(result);
+      const filteredImageFile = URL.createObjectURL(result);
+
+      setFilteredImage(filteredImageFile);
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +75,31 @@ const About = () => {
       setIsLoading(false); 
     }
   }
+  const userId = useSelector(getId);
 
+  const saveFile = async () => {
+    if (!filteredImage) {
+      toast({ title: 'No image to save', type: 'error' });
+      return;
+    }
+    const response = await fetch(filteredImage);
+    const blob = await response.blob();
+    const file = new File([blob], "filteredImage.png", { type: "image/png" });
+    console.log(file);
+  
+
+     await dispatch(saveImage({ file  , apiKey , userId})).unwrap().then((data) => {
+        console.log(data);
+        toast({ title: 'Image saved successfully', type: 'success' });
+      }).catch((err) => {
+        console.log(err);
+        toast({ title: 'Failed to save image', type: 'error' });
+      }
+    )
+  }
+   
+
+  console.log(sentFile)
   
 
 
@@ -103,6 +133,7 @@ const About = () => {
         const t = await onUpload(data);
         setFile(t);
         setSentFile(data.target.files[0]);
+        // await dispatch(setImageBlob(URL.createObjectURL(data.target.files[0]));
       }}
     />
     {file && file.length > 0 ? (
@@ -149,7 +180,7 @@ const About = () => {
   </button>
   {
     filteredImage && (
-      <button
+      <button onClick={saveFile}
         className="px-6 py-2 border-black border   rounded-lg hover:bg-yellow-50 "
       >
         Save Image
