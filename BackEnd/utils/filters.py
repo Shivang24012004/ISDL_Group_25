@@ -129,3 +129,56 @@ class WarmFilter(Filter):
         
         warm_image = cv2.merge((blue_channel, green_channel, red_channel))
         return warm_image
+    
+class SepiaEffect(Filter):
+    def convert_to_sepia(self):
+        image_float=np.array(self.image,dtype=np.float64)
+        blue,green,red=cv2.split(image_float)
+        out_blue=(red*.272)+(green*.534)+(blue*.131)
+        out_green=(red*.349)+(green*.686)+(blue*.168)
+        out_red=(red*.393)+(green*.769)+(blue*.189)
+        
+        out_image=cv2.merge((out_blue,out_green,out_red))
+        
+        out_image[out_image>255]=255
+        out_image=np.array(out_image,dtype=np.uint8)
+        
+        return out_image
+    
+class HDREffect(Filter):
+    def convert_to_hdr(self):
+        output_image=cv2.detailEnhance(self.image,sigma_s=15,sigma_r=0.15)
+        return output_image
+    
+class ColorInvert(Filter):
+    def convert_to_invertcolor(self):
+        output_image=cv2.bitwise_not(self.image)
+        return output_image
+    
+class Gotham(Filter):
+    
+    #increase midtone contrast of red
+    #boost lowermidtone contrast of blue
+    #reduce uppermidtone contrast of blue
+    def convert_to_gotham(self):
+
+        midtone_incr=UnivariateSpline(
+            x=[0,25,51,76,102,128,153,178,204,229,255],
+            y=[0,13,25,51,76,128,178,204,229,242,255])(range(256))
+        
+        lowmidtone_incr=UnivariateSpline(
+            x=[0,16,32,48,64,80,96,111,128,143,159,175,191,207,223,239,255],
+            y=[0,18,35,64,81,99,107,112,121,143,159,175,191,207,223,239,255])(range(256))
+        
+        uppermidtone_incr=UnivariateSpline(
+            x=[0,16,32,48,64,80,96,111,128,143,159,175,191,207,223,239,255],
+            y=[0,16,32,48,64,80,96,111,128,140,148,160,171,187,216,236,255])(range(256))
+    
+        blue,green,red=cv2.split(self.image)
+        
+        red=cv2.LUT(red,midtone_incr).astype(np.uint8)
+        blue=cv2.LUT(blue,lowmidtone_incr).astype(np.uint8)
+        blue=cv2.LUT(blue,uppermidtone_incr).astype(np.uint8)
+        
+        output_image=cv2.merge((blue,green,red))
+        return output_image

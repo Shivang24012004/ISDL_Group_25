@@ -13,6 +13,11 @@ from routes.coolfilter import router as coolfilter
 from routes.warmfilter import router as warmfilter
 from routes.getAllimages import router as getallimages
 from routes.deleteimage import router as deleteimage
+from routes.sepia import router as sepia
+from routes.hdreffect import router as hdreffect
+from routes.colorinvert import router as invertcolor
+from routes.gotham import router as gotham
+from routes.editpassword import router as editpassword
 from pymongo import MongoClient
 from db import db
 from dotenv import load_dotenv
@@ -46,7 +51,12 @@ app.include_router(save_file)
 app.include_router(warmfilter)
 app.include_router(coolfilter)
 app.include_router(getallimages)
+app.include_router(sepia)
 app.include_router(deleteimage)
+app.include_router(hdreffect)
+app.include_router(invertcolor)
+app.include_router(gotham)
+app.include_router(editpassword)
 
 @app.get("/")
 async def read_root():

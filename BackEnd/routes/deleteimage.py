@@ -15,7 +15,7 @@ SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-@router.get('/deleteimage')
+@router.delete('/deleteimage')
 async def deleteImages(file_id:str,user_id:str):
     try:
         img_data=db["image_links"].find_one({"file_id":file_id,"owner_id":user_id})
