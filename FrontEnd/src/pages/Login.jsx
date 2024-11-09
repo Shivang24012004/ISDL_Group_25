@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (userId) {
-      navigate("/");
+      navigate("/filter");
     }
   }, [userId]);
 
@@ -33,8 +33,8 @@ export default function LoginPage() {
       .unwrap().then((data) => {
         console.log(data);
         dispatch(setUserInfo(data.user));
+        navigate("/filter");
         toast({ title : 'Login successful' , type : 'success'})
-        navigate("/");
       })
       .catch((err) => {
         console.log(err);

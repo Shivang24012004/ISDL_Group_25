@@ -87,7 +87,7 @@ console.log(images)
 
 
   return (
-    <div className="h-full w-3/4 p-4 ">
+    <div className="h-full  p-4 w-full ">
       <TooltipProvider>
         <div className=" mb-6 ">
           <h1 className="text-2xl font-serif font-bold tracking-tight">
@@ -107,7 +107,7 @@ console.log(images)
                   <img
                     src={image.link}
                     alt={image.name}
-                    className="object-cover transition-transform group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform group-hover:scale-105"
                   />
 
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -163,8 +163,10 @@ console.log(images)
               </CardContent>
             </Card>
           ))}
+          {images?.length == null && <p className=" text-md min-w-full ">Get started by using Filter </p>}
         </div>
       </TooltipProvider>
     </div>
+    
   );
 }

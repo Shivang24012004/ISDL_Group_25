@@ -96,7 +96,7 @@ const DocumentationPage = () => {
   const listOfEndpoints = sampleEndpoints;
 
   return ( 
-    <div className="p-8 overflow-auto text-left">
+    <div className="p-8 overflow-y-scroll h-full custom-scrollbar  text-left">
       {/* Platform Introduction */}
       <section className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">How to use our API</h1>
