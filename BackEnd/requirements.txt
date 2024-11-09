@@ -13,3 +13,4 @@ jose
 supabase
 gunicorn
 pyjwt
+pillow
