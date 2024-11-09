@@ -18,6 +18,7 @@ from routes.hdreffect import router as hdreffect
 from routes.colorinvert import router as invertcolor
 from routes.gotham import router as gotham
 from routes.editpassword import router as editpassword
+from routes.isAuth import router as isauth
 from pymongo import MongoClient
 from db import db
 from dotenv import load_dotenv
@@ -57,6 +58,7 @@ app.include_router(hdreffect)
 app.include_router(invertcolor)
 app.include_router(gotham)
 app.include_router(editpassword)
+app.include_router(isauth)
 
 @app.get("/")
 async def read_root():

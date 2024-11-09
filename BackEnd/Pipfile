@@ -19,6 +19,7 @@ python-jose = "*"
 bcrypt = "*"
 jose = "*"
 supabase = "*"
+pyjwt = "*"
 
 [dev-packages]
 

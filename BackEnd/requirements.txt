@@ -12,3 +12,4 @@ bcrypt
 jose
 supabase
 gunicorn
+pyjwt
