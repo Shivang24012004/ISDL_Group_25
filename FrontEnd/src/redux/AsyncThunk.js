@@ -385,3 +385,34 @@ export const hdrEffect = createAsyncThunk(
       }
     }
   );
+
+  export const editpassword = createAsyncThunk(
+    'user/editPassword',
+    async ({ userId, password, apiKey }, thunkAPI) => {
+      const formData = new FormData();
+      formData.append('apikey', apiKey);
+      formData.append('new_password', password);
+      try {
+        
+        const response = await axios.put(
+          `${BACKEND_URL}editpassword?user_id=${userId}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        
+        );
+        console.log(response);
+  
+        if (response.data.success === "true") {
+          return response.data;
+        } else {
+          return thunkAPI.rejectWithValue('Failed to update the password');
+        }
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  );

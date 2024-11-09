@@ -64,26 +64,32 @@
 
 // export default Profile;
 
-'use client'
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Copy, Eye, EyeOff, Save } from "lucide-react"
+import { Copy, Eye, EyeOff, Loader, Save } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { email, getapiKey } from "@/redux/userSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { email, getapiKey, getId } from "@/redux/userSlice"
+import toast from "react-hot-toast"
+import { editpassword } from "@/redux/AsyncThunk"
+import { useToast } from "@/hooks/use-toast"
 
 export default function Component() {
   const [apiKey, setApiKey] = useState('')
   const [copied, setCopied] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const [password, setPassword] = useState('********')
+  const [password, setPassword] = useState('')
   const [email2, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const savedemail = useSelector(email)
   const apikey = useSelector(getapiKey)
+  const userId = useSelector(getId)
+  const dispatch = useDispatch()
+  const {toast} = useToast();
 
   useEffect(() => {
     setEmail(savedemail)
@@ -95,6 +101,30 @@ export default function Component() {
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+  const editPassword = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    
+    
+    if(password === ''){
+      toast.error('Password cannot be empty')
+      return
+    }
+
+    await dispatch(editpassword({password , userId , apiKey})).then((data)=>{
+      toast({title:'Password changed successfully',type:'success'})
+    }).catch(err=>{
+      toast.error('Failed to change password')
+    }
+    ).finally(()=>{
+      setLoading(false)
+    })
+    ;
+
+
+
+  }
+
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4 pt-8 bg-white space-y-6">
@@ -103,7 +133,7 @@ export default function Component() {
           <CardTitle className="text-3xl font-semibold">Profile Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={editPassword}>
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-lg font-medium">
@@ -116,12 +146,13 @@ export default function Component() {
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-11"
                   placeholder="Enter your email"
+                  disabled
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-lg font-medium">
-                  Password
+                  Change Password
                 </Label>
                 <div className="relative">
                   <Input
@@ -145,9 +176,13 @@ export default function Component() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" onClick={editPassword}>
+              {loading ?  <Loader className="mr-2 h-4 w-4 animate-spin" />
+              :<>
               <Save className="mr-2 h-4 w-4" />
               Save Changes
+              
+              </>}
             </Button>
           </form>
         </CardContent>

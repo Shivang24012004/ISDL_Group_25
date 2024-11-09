@@ -19,6 +19,7 @@ import { Toaster } from './components/ui/toaster';
 import SignupPage from './pages/Signup';
 import ProtectedRoute from './components/Auth';
 import Navbar from './components/Navbar';
+import Error404 from './pages/Error404';
 
 
 //   const location = useLocation();
@@ -71,6 +72,7 @@ function MainContent() {
           <Navbar />
           <DocumentationPage />
           </>} />
+  
         </>
       ) : (
         <Route
@@ -88,6 +90,7 @@ function MainContent() {
         <Route path="/about" element={<AboutUsPage />}></Route>
         <Route path="/filters2" element={<TempShow2></TempShow2>}></Route>
         <Route path="/filters3" element={<TempShow3></TempShow3>}></Route>
+        <Route path='*' element = {<Error404 />} />
       </Routes>
             </LayoutWithSidebar>
           }
