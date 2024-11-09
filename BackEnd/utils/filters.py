@@ -3,6 +3,7 @@ from io import BytesIO
 import cv2
 import numpy as np
 from scipy.interpolate import UnivariateSpline
+from PIL import Image
 
 class Filter:
     def __init__(self,file:UploadFile):
@@ -182,3 +183,4 @@ class Gotham(Filter):
         
         output_image=cv2.merge((blue,green,red))
         return output_image
+    

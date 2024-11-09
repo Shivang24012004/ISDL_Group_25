@@ -42,13 +42,14 @@ async def sign_in(user:UserCredentials,response:Response):
         access_token = create_access_token(
             data={"sub": str(user_data["_id"])}, expire_delta=access_token_expires
         )
-        print(access_token)
+        # print(access_token)
         response=JSONResponse(content={"success": "true", "message": "Login Successful", "user": user_data}, status_code=200)
         response.set_cookie(
             key='access_token',
             value=f"Bearer {access_token}",
             httponly=True,
-            secure=False
+            secure=False,
+            samesite='none'
         )
         return response
     except Exception as e:

@@ -20,6 +20,7 @@ bcrypt = "*"
 jose = "*"
 supabase = "*"
 pyjwt = "*"
+pillow = "*"
 
 [dev-packages]
 
