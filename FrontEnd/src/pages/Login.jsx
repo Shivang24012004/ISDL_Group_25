@@ -58,7 +58,7 @@ export default function LoginPage() {
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
               <input
@@ -69,12 +69,12 @@ export default function LoginPage() {
                 required
                 onChange={(e) => setEmail(e.target.value)}
 
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="mt-4 block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -85,7 +85,7 @@ export default function LoginPage() {
                 required
                 onChange={(e) => setPassword(e.target.value)}
 
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
+                className="mt-1 ppearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
             </div>
@@ -109,11 +109,11 @@ export default function LoginPage() {
               Sign up
             </a>
           </p>
-          <div className="text-sm text-right flex justify-center">
+          {/* <div className="text-sm text-right flex justify-center">
              <a href="#" className="font-medium text-gray-600 hover:text-gray-500">
                Forgot your password?
              </a>
-           </div>
+           </div> */}
         </div>
         
         
