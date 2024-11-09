@@ -220,7 +220,7 @@ const About = () => {
             
           </Button>
           {filteredImage && (
-            <Button variant="outline" className="flex-1 sm:flex-none">
+            <Button variant="outline" className="flex-1 sm:flex-none" onClick={saveFile}>
               Save Image
             </Button>
           )}
