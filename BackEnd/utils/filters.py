@@ -184,3 +184,30 @@ class Gotham(Filter):
         output_image=cv2.merge((blue,green,red))
         return output_image
     
+class Compression(Filter):
+    def compress_image(self, quality: int = 20, scale_factor: float = 0.95):
+        """
+        Compresses the image by resizing and adjusting its JPEG quality.
+        
+        :param quality: JPEG quality for compression (0-100). Lower means more compression.
+        :param scale_factor: Factor by which to scale down the image dimensions.
+        :return: Compressed image as a NumPy array.
+        """
+        if self.image is None:
+            raise ValueError("Image not loaded")
+        
+        # Resize the image
+        new_width = int(self.image.shape[1] * scale_factor)
+        new_height = int(self.image.shape[0] * scale_factor)
+        resized_image = cv2.resize(self.image, (new_width, new_height), interpolation=cv2.INTER_AREA)
+        
+        # Compress the image by adjusting JPEG quality
+        encode_params = [int(cv2.IMWRITE_JPEG_QUALITY), quality]
+        result, encoded_image = cv2.imencode('.jpg', resized_image, encode_params)
+        
+        if not result:
+            raise ValueError("Image compression failed")
+        
+        # Decode the compressed image back to a NumPy array
+        compressed_image = cv2.imdecode(encoded_image, cv2.IMREAD_COLOR)
+        return compressed_image
