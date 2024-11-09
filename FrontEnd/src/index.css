@@ -36,7 +36,20 @@
 
 
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 
+/* Hide scrollbar for Firefox */
+.custom-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Optional: Hide scrollbar for Internet Explorer and Edge */
+.custom-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+}
 .jakarta {
   font-family: "Plus Jakarta Sans", serif;
   font-optical-sizing: auto;
