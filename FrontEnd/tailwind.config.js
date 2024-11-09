@@ -47,7 +47,7 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
+        sans: ['sans-serif'],
       },
       backgroundImage: {
         appointments: "url('./assets/appointments-bg.png')",
