@@ -16,22 +16,28 @@ const EndpointCard = ({ endpoint }) => {
       {/* Description */}
       <p className="text-gray-600 dark:text-gray-400 mb-4">{endpoint.description}</p>
 
-      {/* Request Body Explanation */}
-      <div className="text-sm text-gray-700 dark:text-gray-300">
-        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Request Body Explanation:</p>
-        <p>{endpoint.requestBodyExplanation}</p>
+      {/* Request Body */}
+      <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Request Body:</p>
+        <pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs overflow-auto">
+          <code>{JSON.stringify(endpoint.requestBody, null, 2)}</code>
+        </pre>
       </div>
 
-      {/* Parameter Explanation */}
+      {/* Parameters */}
       <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Parameter Explanation:</p>
-        <p>{endpoint.parameterExplanation}</p>
+        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Parameters:</p>
+        <pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs overflow-auto">
+          <code>{JSON.stringify(endpoint.parameters, null, 2)}</code>
+        </pre>
       </div>
 
-      {/* Response Explanation */}
+      {/* Response */}
       <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Response Explanation:</p>
-        <p>{endpoint.responseExplanation}</p>
+        <p className="font-bold text-gray-900 dark:text-gray-100 mb-2">Response:</p>
+        <pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs overflow-auto">
+          <code>{JSON.stringify(endpoint.response, null, 2)}</code>
+        </pre>
       </div>
     </div>
   );

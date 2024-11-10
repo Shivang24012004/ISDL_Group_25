@@ -2,7 +2,91 @@ import React from "react";
 import EndpointCard from "../components/EndpointCard";
 
 const DocumentationPage = () => {
+    const websiteUrl = "isdl-group-25.onrender.com";
     const sampleEndpoints = [
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/cartoonify",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "cartoonified-image.jpg" },
+        description: "The Cartoonify endpoint processes an uploaded image, transforming it into a cartoon-like effect."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/coolfilter",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "cool-filtered-image.jpg" },
+        description: "The Cool Filter endpoint applies a filter to the uploaded image, enhancing it with cooler tones for a bluish effect."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/contrastenhancement",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "contrast-enhanced-image.jpg" },
+        description: "The Contrast Enhancement endpoint improves the contrast of an image, making colors more vivid and details more defined."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/grainyeffect",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "grainy-effect-image.jpg" },
+        description: "The Grainy Effect endpoint adds a grainy texture to the image, creating a vintage or retro look."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/grayscale",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "grayscale-image.jpg" },
+        description: "The Grayscale endpoint converts a colored image into grayscale, creating a monochrome effect."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/auth/signin",
+        requestBody: { email: "string", password: "string" },
+        parameters: {},
+        response: { message: "Success", userDetails: "User info on successful sign-in" },
+        description: "The Sign In endpoint allows registered users to log in with their credentials."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/pencilsketch",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "pencil-sketch-image.jpg" },
+        description: "The Pencil Sketch endpoint converts an uploaded image into a pencil sketch effect."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/savefile",
+        requestBody: { file: "image/jpeg or image/png", user_id: "string" },
+        parameters: {},
+        response: { url: "access-url-of-saved-file" },
+        description: "The Save File endpoint stores the uploaded image file in the cloud, linking it to the specified user ID."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/auth/signup",
+        requestBody: { email: "string", password: "string" },
+        parameters: {},
+        response: { message: "Success", userDetails: "User info on successful sign-up" },
+        description: "The Sign Up endpoint allows new users to create an account by providing their email and password."
+      },
+      {
+        requestType: "POST",
+        routeUrl: websiteUrl + "/warmfilter",
+        requestBody: { file: "image/jpeg or image/png" },
+        parameters: {},
+        response: { image: "warm-filtered-image.jpg" },
+        description: "The Warm Filter endpoint applies a warm color effect to the uploaded image, giving it a cozy, reddish hue."
+      }
+    ];
+    
+    const sampleEndpoints2 = [
         {
             requestType: "POST",
             routeUrl: "/api/v1/cartoonify",
