@@ -4,12 +4,12 @@ import Contributor from './Contributor';
 
 const listOfContributors = [
     new Contributor(
-        'https://flufi.me/_next/image?url=https%3A%2F%2Fflufi-cdn.com%2Finstagram%2FU2FsdGVkX18A9LwZnw55d3Fr9dMOpCRD%2BbNlAe%2BofakBbttMdzlqRcqlsBCwlXdTWzph%2Bbn3OdB1QrUpOYXw5yC2%2BBaQrbqmgl8BqK9mAF1V5v6E0LlDMsOSAyHXoZ52gSy68fF5ElVo0uHZ0BWrpxsQxw7qC4pxpbjVnV6kq5Y%3D&w=128&q=75', 
+        'https://media.licdn.com/dms/image/v2/D4D35AQFsXBTIzo5T2w/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1720180375072?e=1731852000&v=beta&t=iEyn1pHVKBPwADUB1tRM1dX0sI-pALaNb7QpdZY4ruc', 
         'Shivang Bhavesh Mewada', 
         '22UCS199', 
         'https://www.linkedin.com/in/shivang-mewada-254884250/', 
         'https://github.com/bob',
-         'OpenCV and Image Processing Engineer'
+         'Computer Vision Specialist'
     ),
     new Contributor(
         'https://media.licdn.com/dms/image/v2/D5603AQHUdn8-AHO4VA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1700217867175?e=1736380800&v=beta&t=BtFayzLCZlHCg7FgrO88gF3rJSKh3igh4ZeZgzL7bTI', 
@@ -17,15 +17,15 @@ const listOfContributors = [
         '22UCS085', 
         'https://www.linkedin.com/in/harsh-joshi-6a0509257/', 
         'https://github.com/harshjoshi004', 
-        'Font-End Developer (ReactJs) & Project Designer'
+        'Font-End Developer & Project Designer'
     ),
     new Contributor(
-        'https://flufi.me/_next/image?url=https%3A%2F%2Fflufi-cdn.com%2Finstagram%2FU2FsdGVkX19H4zPoMIu9RKnwFxFzKDELMH%2BbnKy%2FHomyiVohng%2BAdjxvqqgtqo%2F6xEoR6lMFoDAXhDxfFoe0pGjqA6NQO1QmuvHLsL3GoEDxEgSb8Lx9SuLhg5m3m04Aa1mdJVwAqiwLHYOhxV7VQ7Icl%2BCWJdialqHCynzzMbg%3D&w=128&q=75', 
+        'https://media.licdn.com/dms/image/v2/D4D03AQGAgfdHzhk1yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1719126296374?e=1736985600&v=beta&t=ViWQzQVjpgXgz-kuCnzgER149vfEJKg-GSKp10L7faA', 
         'Rana Janmejkumar Ashish', 
         '22UCS162', 
         'https://www.linkedin.com/in/janmej-rana-361948230/', 
         'https://github.com/harshjoshi004', 
-        'Python Developer'
+        'Python & OpenCV Developer'
     ),
     new Contributor(
         'https://media.licdn.com/dms/image/v2/D5603AQHyuLSo-pfxOQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1673176582432?e=1736380800&v=beta&t=Wi8YYDw1x-5XMgdlcwDj8Nb-vryAHm5GqpFx7n7UGNM', 
@@ -33,13 +33,13 @@ const listOfContributors = [
         '22UCS008   ', 
         'https://www.linkedin.com/in/mohit-agrawal-03ba23255/', 
         'https://github.com/bob',
-         'Frontend Developer'
+         'ReactJs FrontEnd Developer'
     ),
     new Contributor(
         'https://media.licdn.com/dms/image/v2/D4D03AQEDkUW4Hn1Caw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1693239192673?e=1736380800&v=beta&t=_1o0GfmLnnAfGcYy3iw9_Fz8UdTyuusSn9VQsxU5Shg', 
         'Dudhat Hemil PravinKumar', 
         '22UCS074', 
-        'https://www.linkedin.com/in/shivang-mewada-254884250/', 
+        'https://www.linkedin.com/in/hemil-dudhat-52ab51265/', 
         'https://github.com/Hemil36',
          'Full-Stack Web Developer (MERN)'
     )
