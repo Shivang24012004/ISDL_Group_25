@@ -47,7 +47,7 @@ const listOfContributors = [
 
 const AboutUsPage = () => {
     return (
-        <div className="p-8 overflow-auto text-left">
+        <div className="p-8 overflow-auto text-left overflow-y-scroll h-full custom-scrollbar">
 
             <h2 style={{ fontSize: '2em', color: '#000000', fontWeight: 'bold' }}>About Us</h2> {/* Added heading */}
 
