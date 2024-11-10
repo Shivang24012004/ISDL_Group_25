@@ -240,15 +240,15 @@ export const hdrEffect = createAsyncThunk(
     }
   );
 
-  export const gothamEffect = createAsyncThunk(
-    'file/uploadAndProcessGothamEffect',
+  export const compress = createAsyncThunk(
+    'file/uploadAndProcessCompress',
     async ({file,apiKey}, thunkAPI) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('apikey', apiKey);
   
       try {
-        const response = await fetch(`${BACKEND_URL}gotham`, {
+        const response = await fetch(`${BACKEND_URL}compression`, {
           method: "POST",
           body: formData,
         });
@@ -266,35 +266,35 @@ export const hdrEffect = createAsyncThunk(
   );
   
   
-  // export const gothamEffect = createAsyncThunk(
-  //   'file/uploadAndProcessGothamEffect',
-  //   async ({ file, apiKey }, thunkAPI) => {
-  //     const formData = new FormData();
-  //     formData.append('file', file);
-  //     formData.append('apikey', apiKey);
+  export const gothamEffect = createAsyncThunk(
+    'file/uploadAndProcessGothamEffect',
+    async ({ file, apiKey }, thunkAPI) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('apikey', apiKey);
   
-  //     try {
-  //       const response = await axios.post(`${BACKEND_URL}gotham`, formData, {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         }
-  //         // If your backend requires credentials like cookies or HTTP auth
-  //         //withCredentials: true,
-  //       });
+      try {
+        const response = await axios.post(`${BACKEND_URL}gotham`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+          // If your backend requires credentials like cookies or HTTP auth
+          //withCredentials: true,
+        });
   
-  //       // return response.data; // Adjust according to your backend response
-  //       if(response.ok) {
-  //         const blob=await response.blob()
-  //         return blob;
-  //       } else {
-  //         return thunkAPI.rejectWithValue(error.message)
-  //       }
-  //     } catch (error) {
-  //       console.error('Gotham effect error:', error);
-  //       return thunkAPI.rejectWithValue(error.response?.data || error.message);
-  //     }
-  //   }
-  // );
+        // return response.data; // Adjust according to your backend response
+        if(response.ok) {
+          const blob=await response.blob()
+          return blob;
+        } else {
+          return thunkAPI.rejectWithValue(error.message)
+        }
+      } catch (error) {
+        console.error('Gotham effect error:', error);
+        return thunkAPI.rejectWithValue(error.response?.data || error.message);
+      }
+    }
+  );
 
   export const sepiaEffect = createAsyncThunk(
     'file/uploadAndProcessSepiaEffect',
@@ -416,3 +416,4 @@ export const hdrEffect = createAsyncThunk(
       }
     }
   );
+  

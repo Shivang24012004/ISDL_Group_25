@@ -5,7 +5,7 @@ import { onUpload } from './fileUploader';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFilterDispatch } from '@/lib/filterUtils';
-import { cartoonify, contrastEnhancement, coolFilter, gothamEffect, grainyEffect, grayScale, hdrEffect, pencilSketch, saveImage, sepiaEffect, warmFilter } from '@/redux/AsyncThunk';
+import { cartoonify, compress, contrastEnhancement, coolFilter, gothamEffect, grainyEffect, grayScale, hdrEffect, pencilSketch, saveImage, sepiaEffect, warmFilter } from '@/redux/AsyncThunk';
 import { getapiKey, getId } from '@/redux/userSlice';
 import { ImagePlus, Loader, Loader2 } from 'lucide-react';
 import { getImageBlob, setImageBlob } from '@/redux/imageSlice';
@@ -22,9 +22,12 @@ const About = () => {
   const [isDragActive, setIsDragActive] = React.useState(false);
   const [newfile, setNewFile] = React.useState(""); 
   const [isLoading, setIsLoading] = React.useState(false);
+  const [compressImageSize , setCompressImageSize] = React.useState("");
+  const [fileSize , setFileSize] = React.useState("");
     const {toast} = useToast();
   const dispatch = useDispatch();
   const apiKey = useSelector(getapiKey)
+
 
   
 
@@ -73,13 +76,18 @@ const About = () => {
         case 'hdreffect':
           result = await handleFilterDispatch(dispatch, toast, hdrEffect, sentFile, apiKey);
           break;
+        case 'compress':
+          result = await handleFilterDispatch(dispatch, toast, compress, sentFile, apiKey);
+          break;
         default:
           toast({ title: 'Error', description: 'Invalid filter selected', type: 'error' });
           return;
       }
       console.log(result);
       const filteredImageFile = URL.createObjectURL(result);
-
+      
+      setCompressImageSize(result.size);
+  
       setFilteredImage(filteredImageFile);
     } catch (error) {
       console.error(error);
@@ -111,6 +119,7 @@ const About = () => {
     )
   }
    
+
 
   console.log(sentFile)
   
@@ -152,6 +161,7 @@ const About = () => {
                   const t = await onUpload(data);
                   setFile(t);
                   setSentFile(data.target.files[0]);
+                  setFileSize(data.target.files[0].size);
 
                   // await dispatch(setImageBlob(URL.createObjectURL(data.target.files[0]));
                 }} />
@@ -207,6 +217,8 @@ const About = () => {
             <SelectItem value="sepia">Sepia</SelectItem>
             <SelectItem value="gotham">Gotham</SelectItem>
             <SelectItem value="hdreffect">HDR Effect</SelectItem>
+            <SelectItem value="compress">Compress</SelectItem>
+
           </SelectContent>
         </Select>
 
@@ -224,9 +236,14 @@ const About = () => {
               Save Image
             </Button>
           )}
+
+          {
+            selectedFilter == "compress" &&  filteredImage && (
+              <p> Image Compressed to {(compressImageSize/1024).toFixed(2)} KB from { (fileSize/1024).toFixed(2) } KB  </p>
+            )
+          }
         </div>
       </div>
-
       {filteredImage && !isLoading && (
         <Card>
           <CardContent className="p-4 space-y-4">
