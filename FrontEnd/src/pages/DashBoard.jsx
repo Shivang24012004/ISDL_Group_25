@@ -71,7 +71,10 @@ const userId = useSelector(getId);
     dispatch(deleteImage({ file_id , userId })).unwrap().then((data) => {
       console.log(data);
       toast({ title: 'Image Deleted successfully' });
-      setImages((prevImages) => prevImages.filter((image) => image.file_id !== file_id));
+      const images3 = images.filter((image) => image.file_id !== file_id);
+      setImages(images3);
+      dispatch(setImage(images3))
+
     }
     ).catch((err) => {
       console.log(err);
@@ -113,7 +116,7 @@ console.log(images)
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <Tooltip>
                       <TooltipTrigger>
-                        <Link to={image.link}>
+                        <Link to={image.link} target="_blank">
                         <Button
                           size="icon"
                           variant="ghost"
@@ -163,7 +166,7 @@ console.log(images)
               </CardContent>
             </Card>
           ))}
-          {images?.length == null && <p className=" text-md min-w-full ">Get started by using Filter </p>}
+          {(images == null || images?.length == 0 )&& <p className=" text-md min-w-full ">Get started by using Filter </p>}
         </div>
       </TooltipProvider>
     </div>
