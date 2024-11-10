@@ -18,6 +18,7 @@ from routes.hdreffect import router as hdreffect
 from routes.colorinvert import router as invertcolor
 from routes.gotham import router as gotham
 from routes.editpassword import router as editpassword
+from routes.compression import router as compression
 from routes.isAuth import router as isauth
 from pymongo import MongoClient
 from db import db
@@ -35,7 +36,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*","http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,6 +60,7 @@ app.include_router(invertcolor)
 app.include_router(gotham)
 app.include_router(editpassword)
 app.include_router(isauth)
+app.include_router(compression)
 
 @app.get("/")
 async def read_root():
