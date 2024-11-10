@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ContributorPresenter from '../components/ContributorPresenter';
 import Contributor from './Contributor';
 
@@ -46,23 +46,56 @@ const listOfContributors = [
 ];
 
 const AboutUsPage = () => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    // Update the `isMobile` state on window resize
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <div className="p-8 overflow-auto text-left overflow-y-scroll h-full custom-scrollbar">
+        <div
+            style={{
+                padding: '16px',
+                overflowY: 'auto',
+                textAlign: 'left',
+                height: '100%',
+            }}
+        >
+            <h2
+                style={{
+                    fontSize: isMobile ? '1.5em' : '2em',
+                    color: '#000000',
+                    fontWeight: 'bold',
+                }}
+            >
+                About Us
+            </h2>
 
-            <h2 style={{ fontSize: '2em', color: '#000000', fontWeight: 'bold' }}>About Us</h2> {/* Added heading */}
-
-            <p style={{ color: '#666666', margin: '8px 0' }}>
-                We are a team formed for the Integrated Software Development Lab project, bringing together our diverse skills to achieve a common goal. 
-                <br/>Our collaboration has allowed us to learn from each other and apply our knowledge in practical scenarios, contributing to the successful completion of this project.
+            <p
+                style={{
+                    color: '#666666',
+                    margin: '8px 0',
+                    fontSize: isMobile ? '0.9em' : '1em',
+                    lineHeight: isMobile ? '1.4' : '1.6',
+                }}
+            >
+                We are a team formed for the Integrated Software Development Lab project, bringing together our diverse skills to achieve a common goal.
+                <br />Our collaboration has allowed us to learn from each other and apply our knowledge in practical scenarios, contributing to the successful completion of this project.
             </p>
 
-
-            <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                margin: '16px 0 0', // Margin only at the top (top, right, bottom, left)
-                gap: '16px', // Space between cards
-            }}>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row', // Stack vertically on mobile
+                    flexWrap: 'wrap',
+                    marginTop: '16px',
+                    gap: '16px',
+                }}
+            >
                 {listOfContributors.map((contributor, index) => (
                     <ContributorPresenter key={index} contributor={contributor} />
                 ))}
@@ -72,3 +105,4 @@ const AboutUsPage = () => {
 };
 
 export default AboutUsPage;
+

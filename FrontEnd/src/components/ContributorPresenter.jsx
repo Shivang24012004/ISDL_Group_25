@@ -1,5 +1,5 @@
 // ContributorPresenter.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // You can import icons from a library like Font Awesome, or use SVGs directly.
 // Here, I'll use placeholders for the icons.
@@ -20,26 +20,37 @@ const GitHubIcon = () => (
 );
 
 const ContributorPresenter = ({ contributor }) => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    // Update `isMobile` state on window resize
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <div style={{
             border: '1px solid #ccc',
             borderRadius: '8px',
-            padding: '16px',
+            padding: isMobile ? '12px' : '16px', // Adjust padding on mobile
             textAlign: 'center',
-            width: 'calc(30% - 16px)', // Decrease width for narrower cards
-            maxWidth: '250px', // Set a max width to control card size
+            width: isMobile ? '100%' : 'calc(30% - 16px)', // Full width on mobile, 30% on larger screens
+            maxWidth: '250px',
+            margin: isMobile ? '8px auto' : '0', // Center the card on mobile
             boxSizing: 'border-box',
         }}>
             <img src={contributor.imagePath} alt={contributor.name} style={{
-                width: '100px',
-                height: '100px',
+                width: isMobile ? '80px' : '100px', // Smaller image on mobile
+                height: isMobile ? '80px' : '100px', 
                 borderRadius: '50%', // Circular image
                 objectFit: 'cover',
                 margin: '0 auto', // Center the image
                 display: 'block', // Ensures margin auto works for block elements
             }} />
             <h3 style={{
-                fontSize: '1.2em', // Make the name bigger
+                fontSize: isMobile ? '1em' : '1.2em', // Adjust font size on mobile
                 color: '#000000', // Pitch black color for the name
                 fontWeight: 'bold', // Make the name bold
                 margin: '4px 0', // Space around the name
@@ -58,7 +69,11 @@ const ContributorPresenter = ({ contributor }) => {
             }}>
                 {contributor.role}
             </p>
-            <div>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center', // Center the icons
+                flexWrap: isMobile ? 'wrap' : 'nowrap', // Wrap on mobile for better alignment
+            }}>
                 <a href={contributor.linkedInUrl} target="_blank" rel="noopener noreferrer" style={{
                     padding: '8px',
                     margin: '8px 4px',
@@ -68,6 +83,7 @@ const ContributorPresenter = ({ contributor }) => {
                     borderRadius: '4px',
                     textDecoration: 'none',
                     display: 'inline-block',
+                    fontSize: isMobile ? '0.9em' : '1em' // Slightly smaller font on mobile
                 }}>
                     <LinkedInIcon />
                 </a>
@@ -80,6 +96,7 @@ const ContributorPresenter = ({ contributor }) => {
                     borderRadius: '4px',
                     textDecoration: 'none',
                     display: 'inline-block',
+                    fontSize: isMobile ? '0.9em' : '1em' // Slightly smaller font on mobile
                 }}>
                     <GitHubIcon />
                 </a>
