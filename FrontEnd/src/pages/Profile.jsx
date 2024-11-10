@@ -127,7 +127,7 @@ export default function Component() {
 
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 pt-8 bg-white space-y-6">
+    <div className="flex flex-col items-center  p-4 pt-8 bg-white space-y-6 overflow-y-scroll h-full custom-scrollbar">
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <CardTitle className="text-3xl font-semibold">Profile Settings</CardTitle>

@@ -143,7 +143,7 @@ const About = () => {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   return (
 
-<div className="max-w-3xl mx-auto p-6 space-y-8">
+<div className="max-w-3xl mx-auto px-6 space-y-8 overflow-y-scroll h-full custom-scrollbar">
       <div className="space-y-2 text-center">
         <h2 className="text-3xl font-bold tracking-tight">Upload and Edit Your Image</h2>
         <p className="text-muted-foreground">

@@ -273,25 +273,21 @@ export const hdrEffect = createAsyncThunk(
       formData.append('file', file);
       formData.append('apikey', apiKey);
   
+      
       try {
-        const response = await axios.post(`${BACKEND_URL}gotham`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-          // If your backend requires credentials like cookies or HTTP auth
-          //withCredentials: true,
+        const response = await fetch(`${BACKEND_URL}gotham`, {
+          method: "POST",
+          body: formData,
         });
-  
-        // return response.data; // Adjust according to your backend response
-        if(response.ok) {
-          const blob=await response.blob()
+        console.log(response);
+        if (response.ok) {
+          const blob = await response.blob();
           return blob;
         } else {
-          return thunkAPI.rejectWithValue(error.message)
+          return thunkAPI.rejectWithValue('Failed to upload and process the image');
         }
       } catch (error) {
-        console.error('Gotham effect error:', error);
-        return thunkAPI.rejectWithValue(error.response?.data || error.message);
+        return thunkAPI.rejectWithValue(error.message);
       }
     }
   );
